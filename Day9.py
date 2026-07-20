@@ -1,3 +1,4 @@
+#Recursion in Python
 def show(n):
     if(n == 0):
         return
@@ -14,6 +15,7 @@ def show(n):
     print("END")
 show(5)
 
+# Recursion in factorial
 def fact(n):
     if(n == 1 or n == 0):
         return 1
@@ -21,6 +23,7 @@ def fact(n):
 
 print(fact(4))
 
+# Practice Question
 def calc_sum(n):
     if(n == 0):
         return 0
