@@ -14,6 +14,7 @@ f.close()
 #.   't'       -        text mode(default)
 #.   '+'       -        open a disk file for updating(reading and writing)
 
+# Reading in file
 f = open("Day6.py","r")
 data = f.read(6)
 print(data)
