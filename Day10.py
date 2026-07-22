@@ -1,3 +1,4 @@
+# CH - 7 (File I/O)
 f  = open("Day6.py" ,"r")
 data = f.read()
 print(data)
