@@ -4,11 +4,11 @@ import pandas as pd
 movies = pd.read_csv('/Users/aryankasera/Desktop/180-Days-Python/05_Pandas/imdb-top-1000.csv')
 print(movies)
 
-genres = movies.groupby('Genre')
-print(genres)
-print(movies)
+# genres = movies.groupby('Genre')
+# print(genres)
+# print(movies)
 
-# #applying builtin aggregation functions on groupby objects
+# # applying builtin aggregation functions on groupby objects
 # print(genres.sum())
 # print(genres.min())
 # print(genres.max())
@@ -32,9 +32,9 @@ print(movies)
 
 
 
-# #GroupBy Attributes and Methods
+# # GroupBy Attributes and Methods
 genre = movies.groupby('Genre')
-print(genre)
+# print(genre)
 
 # #find total number of groups ->len
 # print(len(genre))
@@ -67,39 +67,62 @@ print(genre)
 
 
 
-#Arregrate Method
-#passing dict
-genre.agg(
-    {
-        'Runtime':'mean',
-        'IMDB_Rating':'mean',
-        'No_of_Votes':'sum',
-        'Gross':'sum',
-        'Metascore':'min'
-    }
-)
-print(genre.agg)
+# #Arregrate Method
+# #passing dict
+# genre.agg(
+#     {
+#         'Runtime':'mean',
+#         'IMDB_Rating':'mean',
+#         'No_of_Votes':'sum',
+#         'Gross':'sum',
+#         'Metascore':'min'
+#     }
+# )
+# print(genre.agg)
 
-#passing list
-print(genres.agg(['min','max','sum']))
+# #passing list
+# print(genres.agg(['min','max','sum']))
 
-#adding both the syntax
-genres.agg(
-    {
-        'Runtime':['min','mean'],
-        'IMDB_Rating':'mean',
-        'No_of_Votes':['sum','max'],
-        'Gross':'sum',
-        'Metascore':'min'
-    }
-)
-print(genres.agg)
+# #adding both the syntax
+# genres.agg(
+#     {
+#         'Runtime':['min','mean'],
+#         'IMDB_Rating':'mean',
+#         'No_of_Votes':['sum','max'],
+#         'Gross':'sum',
+#         'Metascore':'min'
+#     }
+# )
+# print(genres.agg)
 
 
 
-#looping on groups
-dff = pd.DataFrame(columns=movies.columns)
-for group,data in genres:
-    dff = pd.concat([dff, data[data['IMDB_Rating'] == data['IMDB_Rating'].max()]],ignore_index=True)
+# #looping on groups
+# dff = pd.DataFrame(columns=movies.columns)
+# for group,data in genres:
+#     dff = pd.concat([dff, data[data['IMDB_Rating'] == data['IMDB_Rating'].max()]],ignore_index=True)
 
-print(dff)
+# print(dff)
+
+
+
+#Split-(apply)-combine method
+#apply -> builtin function
+print(genre.apply(min))
+
+#find number of movies starting with A for each group
+def foo(group):
+    return group['Series_Title'].str.startswith('A').sum()
+print(genre.apply(foo))
+
+#find rank of each movie in the group according to IMDB score
+def rank_movie(group):
+    group['genre_rank'] = group['IMDB_Rating'].rank(ascending=False)
+    return group
+print(genre.apply(rank_movie))
+
+#find normalized IMDB rating group wise
+def normal(group):
+    group['Normalized_IMDB_rating'] == (group['IMDB_Rating'] - group['IMDB_Rating'].min())/(group['IMDB_Rating'].max() - group['IMDB_Rating'].min())
+    return group
+print(genre.apply(normal))
