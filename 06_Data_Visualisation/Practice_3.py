@@ -53,3 +53,4 @@ print(plt.ylabel('Runs Scored'))
 print(plt.tight_layout())
 print(plt.show())
 
+print(batsman)
