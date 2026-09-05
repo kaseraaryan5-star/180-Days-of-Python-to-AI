@@ -38,3 +38,4 @@ for c in company:
     print(f"Rating: {rating}")
     print(f"Reviews: {reviews}")
     print("-" * 50)
+    
