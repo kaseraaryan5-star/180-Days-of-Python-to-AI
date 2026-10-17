@@ -1,0 +1,17 @@
+[project]
+name = "100-days-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "kaseraaryan5-star", email = "kaseraaryan5@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+100-days-ai = "100_days_ai:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
