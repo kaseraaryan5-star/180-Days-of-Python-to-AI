@@ -37,3 +37,5 @@ for step in agent.stream(
 ):
     step["messages"][-1].pretty_print()
 
+print(agent.invoke({"messages":"What is the current AI news"})["messages"][-1].content)
+
