@@ -16,12 +16,58 @@ model = init_chat_model("groq:openai/gpt-oss-20b")
 from pydantic import BaseModel,Field
 class Movie(BaseModel):
     title:str=Field(description="The title of the movie")
-    year:int=Field(description="This year the movie was released")
+    year:int=Field(description="The year the movie was released")
     director:str=Field(desciption="The director of the movie")
-    rating:float=Field(description="The movies rating out of 10")
+    rating:float=Field(description="The movie's rating out of 10")
 
-model_with_structred = model.with_structured_output(Movie)
+model_with_structred = model.with_structured_output(
+    Movie,
+    method="json_schema",
+)
 print(model_with_structred)
 
 print(model.invoke("Provide the details about the movie Inception"))
+
+print(model_with_structred.invoke("Provide the details about the movie Inception"))
+
+
+
+### MESSAGE OUTPUT ALONGSIDE PARSED STRUCUTRE
+
+from pydantic import BaseModel,Field
+
+class Movie(BaseModel):
+    """A movie with details"""
+    title:str=Field(description="The title of the movie")
+    year:int=Field(description="The year the movie was released")
+    director:str=Field(description="The director of the movie")
+    rating:float=Field(description="The movie's rating out of 10")
+
+model_with_structred = model.with_structured_output(Movie, include_raw=True)
+
+response = model_with_structred.invoke("Provide details about the movie Inception")
+print(response)
+
+
+
+
+## NESTED STRUCTURE
+from pydantic import BaseModel,Field
+
+class Actor(BaseModel):
+    name:str
+    role:str
+
+class MovieDetails(BaseModel):
+    title:str
+    year:int
+    cast:list[Actor]
+    genre:list[str]
+    budget:float | None = Field(None,description="Budget in million USD")
+
+model_with_structred = model.with_structured_output(MovieDetails)
+
+response = model_with_structred.invoke("Provide details about the movie Inception")
+print(response)
+
 
