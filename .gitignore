@@ -2,3 +2,6 @@ logs/
 *.log
 .DS_Store
 .env
+*.pkl
+output.html
+Miniforge3-*.sh
